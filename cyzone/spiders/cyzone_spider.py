@@ -16,5 +16,5 @@ class CyzoneSpider(Spider):
 			cyzone_item["title"] = item.find("h2", class_="item-tit").get_text()
 			cyzone_item["intro"] = item.find("p", class_="item-intro").get_text()
 			cyzone_item["href"] = item.find("a").get("href")
-			# print(cyzone_item)
+			print(cyzone_item)
 			yield cyzone_item
