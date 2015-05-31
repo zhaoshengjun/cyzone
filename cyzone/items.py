@@ -15,3 +15,4 @@ class CyzoneItem(Item):
     title = Field()
     intro = Field()
     href = Field()
+    contents = Field()
