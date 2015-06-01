@@ -35,8 +35,9 @@ class MongoDBPipeline(object):
 			if not data:
 				valid = False
 				raise DropItem("Missing {0}!".format(data))
-			if valid:
-				# self.collection.insert(dict(item))
-				self.collection.update({"href": item['href']}, dict(item), upsert=true)
-				log.msg('Added to MongoDB database.', level=log.DEBUG, spider=spider)
-			return item
+		if valid:
+			print(item)
+			self.collection.insert(dict(item))
+			# self.collection.update({"href": item['href']}, dict(item), upsert=true)
+			log.msg('Added to MongoDB database.', level=log.DEBUG, spider=spider)
+		return item
