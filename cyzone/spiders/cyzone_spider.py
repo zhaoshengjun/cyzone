@@ -11,6 +11,7 @@ class CyzoneSpider(Spider):
 	def parse(self, response):
 		soup = bs(response.body)
 		items = soup.find_all("div", class_="item-info fl")
+		requests = []
 		for item in items:
 			cyzone_item = CyzoneItem()
 			cyzone_item["title"] = item.find("h2", class_="item-tit").get_text()
@@ -19,7 +20,8 @@ class CyzoneSpider(Spider):
 			cyzone_item["href"] = url
 			request = Request(url, callback=self.parse_page)
 			request.meta['item'] = cyzone_item
-			return request
+			requests.append(request)
+		return requests
 
 	def parse_page(self, response):
 		item = response.meta['item']
