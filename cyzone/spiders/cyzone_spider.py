@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup as bs
 from cyzone.items import CyzoneItem
 from scrapy.http import Request
 from scrapy.spider import Spider
-# from scrapy.contrib.linkextractors import LinkExtractor
-# from scrapy.contrib.spiders import CrawlSpider, Rule
 
 class CyzoneSpider(Spider):
 	name = "cyzone"
@@ -22,8 +20,6 @@ class CyzoneSpider(Spider):
 			request = Request(url, callback=self.parse_page)
 			request.meta['item'] = cyzone_item
 			return request
-			# print(cyzone_item)
-			# return cyzone_item
 
 	def parse_page(self, response):
 		item = response.meta['item']
