@@ -10,8 +10,23 @@ class CyzoneSpider(Spider):
 
 	def parse(self, response):
 		soup = bs(response.body)
-		items = soup.find_all("div", class_="item-info fl")
+		self.parse_list(response)
+		# Follow pages
 		requests = []
+		follow_pages = soup.find_all("div", id="pages")
+		for page in follow_pages:
+			url = page.find("a").get("href")
+			# In case the URL doesn't start with "http"
+			if url[0:3] != "http":
+				url = "http://www.cyzone.cn"+url
+			request = Request(url, callback=self.parse_list)
+			requests.append(request)
+		return requests
+
+	def parse_list(self, response):
+		soup = bs(response.body)
+		requests = []
+		items = soup.find_all("div", class_="item-info fl")
 		for item in items:
 			cyzone_item = CyzoneItem()
 			cyzone_item["title"] = item.find("h2", class_="item-tit").get_text()

@@ -16,7 +16,7 @@ ITEM_PIPELINES = {'cyzone.pipelines.MongoDBPipeline':1}
 MONGODB_SERVER = 'localhost'
 MONGODB_PORT = 27017
 MONGODB_DB = 'test'
-MONGODB_COLLECTION = 'VCNEWS'
+MONGODB_COLLECTION = 'vcnews'
 DOWNLOAD_DELAY = 5
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'cyzone (+http://www.yourdomain.com)'

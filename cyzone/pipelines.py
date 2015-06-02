@@ -32,11 +32,16 @@ class MongoDBPipeline(object):
 	def process_item(self, item, spider):
 		valid = True
 		for data in item:
+			# invalid scenario 1 - no data
 			if not data:
 				valid = False
 				raise DropItem("Missing {0}!".format(data))
+			# invalid scenario 2 - existing record
+			exist_record = self.collection.find({"title":item["title"]}).count()
+			if exist_record > 0:
+				raise DropItem('Record has already been added')
 		if valid:
-			print(item)
+			# print(item)
 			self.collection.insert(dict(item))
 			# self.collection.update({"href": item['href']}, dict(item), upsert=true)
 			log.msg('Added to MongoDB database.', level=log.DEBUG, spider=spider)
