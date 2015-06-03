@@ -37,8 +37,10 @@ class MongoDBPipeline(object):
 				valid = False
 				raise DropItem("Missing {0}!".format(data))
 			# invalid scenario 2 - existing record
-			exist_record = self.collection.find({"title":item["title"]}).count()
+			href = item["href"]
+			exist_record = self.collection.find({"href":href}).count()
 			if exist_record > 0:
+				print(self.collection.find({"href":href}))
 				raise DropItem('Record has already been added')
 		if valid:
 			# print(item)

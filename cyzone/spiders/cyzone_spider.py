@@ -21,7 +21,8 @@ class CyzoneSpider(Spider):
 				url = "http://www.cyzone.cn"+url
 			request = Request(url, callback=self.parse_list)
 			requests.append(request)
-		print(requests)
+		# print(requests)
+		# self.parse_list(response)
 		return requests
 
 	def parse_list(self, response):
@@ -37,7 +38,7 @@ class CyzoneSpider(Spider):
 			request = Request(url, callback=self.parse_page)
 			request.meta['item'] = cyzone_item
 			requests.append(request)
-		print(requests)
+		# print(requests)
 		return requests
 
 	def parse_page(self, response):
