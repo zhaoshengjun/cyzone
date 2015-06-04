@@ -10,36 +10,36 @@ class CyzoneSpider(Spider):
 
 	def parse(self, response):
 		soup = bs(response.body)
-		# self.parse_list(response)
-		# Follow pages
-		requests = []
+		# generate requests from the page list
+		self.parse_list(response)
+		# generate requests from the following pages
 		follow_pages = soup.find_all("div", id="pages")
 		for page in follow_pages:
 			url = page.find("a").get("href")
 			# In case the URL doesn't start with "http"
 			if url[0:3] != "http":
 				url = "http://www.cyzone.cn"+url
-			request = Request(url, callback=self.parse_list)
-			requests.append(request)
-		# print(requests)
-		# self.parse_list(response)
-		return requests
+			yield self.make_request_from_url(url)
+
+	def make_request_from_url(self, url):
+		return Request(url, callback=self.parse_list,dont_filter=True)
 
 	def parse_list(self, response):
 		soup = bs(response.body)
-		requests = []
 		items = soup.find_all("div", class_="item-info fl")
 		for item in items:
-			cyzone_item = CyzoneItem()
-			cyzone_item["title"] = item.find("h2", class_="item-tit").get_text()
-			cyzone_item["intro"] = item.find("p", class_="item-intro").get_text()
-			url = item.find("a").get("href")
-			cyzone_item["href"] = url
-			request = Request(url, callback=self.parse_page)
-			request.meta['item'] = cyzone_item
-			requests.append(request)
-		# print(requests)
-		return requests
+			yield self.make_request_from_list(item)
+
+	def make_request_from_list(self, item):
+		cyzone_item = CyzoneItem()
+		cyzone_item = CyzoneItem()
+		cyzone_item["title"] = item.find("h2", class_="item-tit").get_text()
+		cyzone_item["intro"] = item.find("p", class_="item-intro").get_text()
+		url = item.find("a").get("href")
+		cyzone_item["href"] = url
+		request = Request(url, callback=self.parse_page,dont_filter=True)
+		request.meta['item'] = cyzone_item
+		return request
 
 	def parse_page(self, response):
 		item = response.meta['item']
