@@ -13,10 +13,10 @@ class CyzoneSpider(Spider):
 	def __init__(self, name=None, **kwargs):
 		urls = []
 		base_url = "http://www.cyzone.cn/hotword/%E6%AF%8F%E6%97%A5%E8%9E%8D%E8%B5%84%E6%B8%85%E5%8D%95/"
-		for i in range(3):
+		for i in range(1,4):
 			url = base_url + str(i)
 			urls.append(url)
-		print(urls)
+		# print(urls)
 		self.start_urls = urls
 
 
