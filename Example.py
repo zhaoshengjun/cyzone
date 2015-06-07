@@ -30,9 +30,9 @@ class LoginSpider(scrapy.Spider):
 
 	def parse(self, response):
 		return scrapy.FromRequest.form_response(
-			response, 
+			response,
 			formdata={'username':'john', 'passsword':'secret'},
-			callback=self.after_login)	
+			callback=self.after_login)
 	def after_login(self, response):
 		if 'authentication falied' in response.body:
 			self.log('login falied', level=log.ERROR)
